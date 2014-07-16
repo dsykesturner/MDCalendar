@@ -23,7 +23,7 @@
 		0C50FBBC192FBCFC0043D2D5 /* MDCalendarDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C50FBBB192FBCFC0043D2D5 /* MDCalendarDemoTests.m */; };
 		0C50FBC9192FBD4A0043D2D5 /* MDCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C50FBC8192FBD4A0043D2D5 /* MDCalendarViewController.m */; };
 		0CB9451B194CFFE800BE3BB1 /* UIColor+MDCalendarDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB9451A194CFFE800BE3BB1 /* UIColor+MDCalendarDemo.m */; };
-		65F996321976D50C000D0399 /* lineSelected4.png in Resources */ = {isa = PBXBuildFile; fileRef = 65F996311976D50C000D0399 /* lineSelected4.png */; };
+		65F996341976D66B000D0399 /* lineSelected4.png in Resources */ = {isa = PBXBuildFile; fileRef = 65F996331976D66B000D0399 /* lineSelected4.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +61,7 @@
 		0C50FBC8192FBD4A0043D2D5 /* MDCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDCalendarViewController.m; sourceTree = "<group>"; };
 		0CB94519194CFFE800BE3BB1 /* UIColor+MDCalendarDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MDCalendarDemo.h"; sourceTree = "<group>"; };
 		0CB9451A194CFFE800BE3BB1 /* UIColor+MDCalendarDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MDCalendarDemo.m"; sourceTree = "<group>"; };
-		65F996311976D50C000D0399 /* lineSelected4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lineSelected4.png; sourceTree = "<group>"; };
+		65F996331976D66B000D0399 /* lineSelected4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lineSelected4.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +95,7 @@
 				0B7EA04D19364EB6009D95CC /* MDCalendar.m */,
 				0B7EA05019364EB6009D95CC /* NSDate+MDCalendar.h */,
 				0B7EA05119364EB6009D95CC /* NSDate+MDCalendar.m */,
+				65F996331976D66B000D0399 /* lineSelected4.png */,
 			);
 			path = MDCalendar;
 			sourceTree = "<group>";
@@ -151,7 +152,6 @@
 				0C50FB9F192FBCFC0043D2D5 /* InfoPlist.strings */,
 				0C50FBA2192FBCFC0043D2D5 /* main.m */,
 				0C50FBA4192FBCFC0043D2D5 /* MDCalendarDemo-Prefix.pch */,
-				65F996311976D50C000D0399 /* lineSelected4.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -261,7 +261,7 @@
 			files = (
 				0C50FBA1192FBCFC0043D2D5 /* InfoPlist.strings in Resources */,
 				0C50FBA9192FBCFC0043D2D5 /* Images.xcassets in Resources */,
-				65F996321976D50C000D0399 /* lineSelected4.png in Resources */,
+				65F996341976D66B000D0399 /* lineSelected4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
