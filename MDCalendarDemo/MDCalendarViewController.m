@@ -56,7 +56,7 @@
         calendarView.weekdayTextColor = [UIColor grandmasPillow];
         calendarView.cellBackgroundColor = [UIColor whiteColor];
         
-        calendarView.highlightColor = [UIColor pacifica];
+        calendarView.highlightColor = [UIColor classicBlue];
         
         NSDate *startDate = [NSDate date];
         NSDate *endDate = [startDate dateByAddingMonths:6];
@@ -75,7 +75,7 @@
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    _calendarView.frame = self.view.bounds;
+    _calendarView.frame = CGRectMake(20, 20, 280, 265);
     _calendarView.contentInset = UIEdgeInsetsMake([self.topLayoutGuide length], 0, [self.bottomLayoutGuide length], 0);
 }
 

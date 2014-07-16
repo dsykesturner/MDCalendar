@@ -23,6 +23,7 @@
 //  SOFTWARE.
 
 #import "MDCalendar.h"
+#import "UIColor+MDCalendarDemo.h"
 
 @interface MDCalendarViewCell : UICollectionViewCell
 @property (nonatomic, assign) NSDate  *date;
@@ -41,7 +42,8 @@
 @property (nonatomic, strong) UIView  *borderView;
 @end
 
-static NSString * const kMDCalendarViewCellIdentifier = @"kMDCalendarViewCellIdentifier";
+static NSString * const kMDCalendarViewNoLineCellIdentifier = @"kMDCalendarViewNoLineCellIdentifier";
+static NSString * const kMDCalendarViewLineCellIdentifier = @"kMDCalendarViewLineCellIdentifier";
 
 @implementation MDCalendarViewCell
 
@@ -388,16 +390,16 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
         _collectionView.dataSource = self;
         _collectionView.delegate   = self;
         _collectionView.backgroundColor = [UIColor whiteColor];
-        _collectionView.allowsMultipleSelection = NO;
+        _collectionView.allowsMultipleSelection = YES;
         
-        [_collectionView registerClass:[MDCalendarViewCell class] forCellWithReuseIdentifier:kMDCalendarViewCellIdentifier];
+        [_collectionView registerClass:[MDCalendarViewCell class] forCellWithReuseIdentifier:kMDCalendarViewNoLineCellIdentifier];
+        [_collectionView registerClass:[MDCalendarViewCell class] forCellWithReuseIdentifier:kMDCalendarViewLineCellIdentifier];
         [_collectionView registerClass:[MDCalendarHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kMDCalendarHeaderViewIdentifier];
         [_collectionView registerClass:[MDCalendarFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kMDCalendarFooterViewIdentifier];
         
 
         // Default Configuration
         self.startDate      = self.currentDate;
-        self.selectedDate   = self.startDate;
         self.endDate        = [[_startDate dateByAddingMonths:3] lastDayOfMonth];
         
         self.dayFont        = [UIFont systemFontOfSize:17];
@@ -423,7 +425,7 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
 - (void)layoutSubviews {
     [super layoutSubviews];
     _collectionView.frame = self.bounds;
-    [self scrollCalendarToDate:_selectedDate animated:NO];
+    [self scrollCalendarToDate:self.firstSelectedDate animated:NO];
 }
 
 #pragma mark - Custom Accessors
@@ -539,10 +541,32 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDate *date = [self dateForIndexPath:indexPath];
     
-    MDCalendarViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kMDCalendarViewCellIdentifier forIndexPath:indexPath];
+    MDCalendarViewCell *cell;
+    UIImageView *img;
+    
+    // use reverse index path checking to determin whether the cell is a date or not
+    if (self.firstIndexPath && self.secondIndexPath && [indexPath compare:[self indexPathForDate:date]] == NSOrderedSame &&
+        (([indexPath compare:self.firstIndexPath] == NSOrderedAscending &&
+          [indexPath compare:self.secondIndexPath] == NSOrderedDescending) ||
+         ([indexPath compare:self.firstIndexPath] == NSOrderedDescending &&
+          [indexPath compare:self.secondIndexPath] == NSOrderedAscending)))
+    {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:kMDCalendarViewLineCellIdentifier forIndexPath:indexPath];
+        
+        img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        [img setImage:[UIImage imageNamed:@"lineSelected4"]];
+        [cell addSubview:img];
+        
+        cell.textColor = [UIColor whiteColor];
+    }
+    else
+    {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:kMDCalendarViewNoLineCellIdentifier forIndexPath:indexPath];
+        cell.textColor = [date isEqualToDateSansTime:[self currentDate]] ? self.highlightColor : self.textColor;
+    }
+    
     cell.backgroundColor = self.cellBackgroundColor;
     cell.font = self.dayFont;
-    cell.textColor = [date isEqualToDateSansTime:[self currentDate]] ? self.highlightColor : self.textColor;
     cell.date = date;
     cell.highlightColor = self.highlightColor;
     cell.borderHeight = self.borderHeight;
@@ -566,7 +590,7 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
             cell.label.text = @"";
         }
         cell.userInteractionEnabled = NO;
-    } else if ([date isEqualToDateSansTime:self.selectedDate]) {
+    } else if ([date isEqualToDateSansTime:self.firstSelectedDate] || [date isEqualToDateSansTime:self.secondSelectedDate]) {
         // Handle cell selection
         cell.selected = YES;
         [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
@@ -605,7 +629,22 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDate *date = [self dateForIndexPath:indexPath];
-    self.selectedDate = date;
+    
+    if (self.selectionToggle)
+    {
+        self.selectionToggle = false;
+        [collectionView deselectItemAtIndexPath:self.firstIndexPath animated:true];
+        self.firstSelectedDate = date;
+        self.firstIndexPath = indexPath;
+    }
+    else
+    {
+        self.selectionToggle = true;
+        [collectionView deselectItemAtIndexPath:self.secondIndexPath animated:true];
+        self.secondSelectedDate = date;
+        self.secondIndexPath = indexPath;
+    }
+    [collectionView reloadData];
     
     if ([_delegate respondsToSelector:@selector(calendarView:didSelectDate:)]) {
         [_delegate calendarView:self didSelectDate:date];

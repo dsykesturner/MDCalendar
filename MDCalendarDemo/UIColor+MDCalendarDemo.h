@@ -34,5 +34,6 @@
 + (UIColor *)appleChic;
 + (UIColor *)cheeryPink;
 + (UIColor *)grandmasPillow;
++ (UIColor *)classicBlue;
 
 @end

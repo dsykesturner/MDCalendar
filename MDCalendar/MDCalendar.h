@@ -81,7 +81,11 @@
 ///--------------------------------
 @property (nonatomic, strong) NSDate  *startDate;     /**< Specify date to start calendar. Default is date when calendar created. */
 @property (nonatomic, strong) NSDate  *endDate;       /**< Specify date to end calendar. Defaults to end of month for startDate. */
-@property (nonatomic, strong) NSDate  *selectedDate;  /**< default is startDate */
+@property (nonatomic, strong) NSDate  *firstSelectedDate;  /**< default is startDate */
+@property (nonatomic, strong) NSDate  *secondSelectedDate;
+@property (nonatomic, strong) NSIndexPath *firstIndexPath;
+@property (nonatomic, strong) NSIndexPath *secondIndexPath;
+@property (nonatomic) BOOL selectionToggle;
 
 
 ///--------------------------------
