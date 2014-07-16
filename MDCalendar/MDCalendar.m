@@ -554,7 +554,7 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:kMDCalendarViewLineCellIdentifier forIndexPath:indexPath];
         
         img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        [img setImage:[UIImage imageNamed:@"lineSelected4"]];
+        [img setImage:[UIImage imageNamed:@"lineSelected4.png"]];
         [cell addSubview:img];
         
         cell.textColor = [UIColor whiteColor];
