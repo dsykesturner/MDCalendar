@@ -23,7 +23,6 @@
 //  SOFTWARE.
 
 #import "MDCalendar.h"
-#import "UIColor+MDCalendarDemo.h"
 
 @interface MDCalendarViewCell : UICollectionViewCell
 @property (nonatomic, assign) NSDate  *date;
