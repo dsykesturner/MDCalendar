@@ -115,6 +115,10 @@
  */
 - (void)scrollCalendarToDate:(NSDate *)date animated:(BOOL)animated;
 
+// force selection/deselection
+-(void)selectCellAtIndexPath:(NSIndexPath *)indexPath;
+-(void)deselectCellAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 
@@ -152,5 +156,6 @@
 @protocol MDCalendarDelegate <NSObject>
 @optional
 - (void)calendarView:(MDCalendar *)calendarView didSelectDate:(NSDate *)date;
+- (void)calendarView:(MDCalendar *)calendarView didDeselectDate:(NSDate *)date;
 - (BOOL)calendarView:(MDCalendar *)calendarView shouldSelectDate:(NSDate *)date;
 @end

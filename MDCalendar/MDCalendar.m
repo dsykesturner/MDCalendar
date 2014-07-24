@@ -626,13 +626,15 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
     return view;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     NSDate *date = [self dateForIndexPath:indexPath];
     
     if (self.selectionToggle)
     {
         self.selectionToggle = false;
         [collectionView deselectItemAtIndexPath:self.firstIndexPath animated:true];
+        
         self.firstSelectedDate = date;
         self.firstIndexPath = indexPath;
     }
@@ -664,6 +666,27 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
     return YES;
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDate *date = [self dateForIndexPath:indexPath];
+    
+    if (self.firstSelectedDate && [date compare:self.firstSelectedDate] == NSOrderedSame)
+    {
+        self.firstSelectedDate = nil;
+        self.firstIndexPath = nil;
+    }
+    if (self.secondSelectedDate && [date compare:self.secondSelectedDate] == NSOrderedSame)
+    {
+        self.secondSelectedDate = nil;
+        self.secondIndexPath = nil;
+    }
+    [collectionView reloadData];
+    
+    if ([_delegate respondsToSelector:@selector(calendarView:didDeselectDate:)]) {
+        [_delegate calendarView:self didDeselectDate:date];
+    }
+}
+
 #pragma mark - UICollectionViewFlowLayoutDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -692,6 +715,16 @@ static CGFloat const kMDCalendarViewSectionSpacing = 10.f;
 - (CGFloat)cellWidth {
     CGFloat boundsWidth = _collectionView.bounds.size.width;
     return floor(boundsWidth / DAYS_IN_WEEK) - kMDCalendarViewItemSpacing;
+}
+
+-(void)selectCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.collectionView selectItemAtIndexPath:indexPath animated:false scrollPosition:UICollectionViewScrollPositionNone];
+}
+
+-(void)deselectCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:false];
 }
 
 @end
